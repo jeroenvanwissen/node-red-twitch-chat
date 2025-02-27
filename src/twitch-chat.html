@@ -1,0 +1,51 @@
+<script type="text/javascript">
+    RED.nodes.registerType('twitch-chat', {
+        category: 'Twitch Chat',
+        color: '#9145FF',
+        defaults: {
+            name: { value: '' },
+            // Reference the configuration node from @xureilab/node-red-twitch-eventsub.
+            twitch: { type: 'twitch-eventsub-config', required: true },
+            channels: { value: '', required: true }
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: 'twitch-icon.png',
+        paletteLabel: 'Chat',
+        label: function () {
+            if (this.name) {
+                return this.name;
+            } else {
+                var config = RED.nodes.node(this.twitch);
+                return 'Chat (' + (config ? config.name || '' : '') + ')';
+            }
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="twitch-chat">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-twitch"><i class="fa fa-twitch"></i> Twitch Config</label>
+        <input type="text" id="node-input-twitch" />
+    </div>
+    <div class="form-row">
+        <label for="node-input-channels"><i class="fa fa-twitch"></i> Channels</label>
+        <input type="text" id="node-input-channels" placeholder="Channels" />
+    </div>
+</script>
+
+<script type="text/html" data-help-name="twitch-chat">
+    <p>A node that sends messages to a Twitch chat channel using @twurple/chat. Depends on @xureilab/node-red-twitch-eventsub.</p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload.channel <span class="property-type">string</span></dt>
+        <dd>The Twitch channel name to send the message to</dd>
+
+        <dt>payload.message <span class="property-type">string</span></dt>
+        <dd>The message to send to the channel</dd>
+    </dl>
+</script>
